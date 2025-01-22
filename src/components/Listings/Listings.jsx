@@ -75,7 +75,7 @@ const Listings = () => {
                 {listing.images.map((image, index) => (
                   <img
                     key={index}
-                    src={`https://git.heroku.com/the-garage-marketplace.git/${image}`}
+                    src={`https://git.heroku.com/the-garage-marketplace.git/api/${image}`}
                     alt={listing.title}
                     className="carousel-image"
                   />

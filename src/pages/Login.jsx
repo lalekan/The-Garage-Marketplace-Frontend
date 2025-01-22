@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      const response = await fetch('https://git.heroku.com/the-garage-marketplace.git/auth/login', {
+      const response = await fetch('https://git.heroku.com/the-garage-marketplace.git/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
