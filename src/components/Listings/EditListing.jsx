@@ -108,7 +108,7 @@ const EditListing = () => {
             {existingImages.map((image, index) => (
               <img
                 key={index}
-                src={`https://git.heroku.com/the-garage-marketplace.git/api/${image}`}
+                src={`https://the-garage-marketplace-fbea5251146d.herokuapp.com/api/${image}`}
                 alt="Listing"
               />
             ))}

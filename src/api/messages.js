@@ -1,6 +1,6 @@
 import axios from './axios'
 
-const API_BASE_URL = 'https://git.heroku.com/the-garage-marketplace.git/api'
+const API_BASE_URL = 'https://the-garage-marketplace-fbea5251146d.herokuapp.com/api'
 
 // Get messages for a listing
 export const getListingMessages = async (listingId) => {

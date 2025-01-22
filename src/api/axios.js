@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const API = axios.create({
-  baseURL: 'https://git.heroku.com/the-garage-marketplace.git/api',
+  baseURL: 'https://the-garage-marketplace-fbea5251146d.herokuapp.com/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
