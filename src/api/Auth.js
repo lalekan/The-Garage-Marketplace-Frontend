@@ -57,7 +57,7 @@ export const CheckSession = async (token) => {
     return response.data.user
   } catch (err) {
     console.error('Error in CheckSession:', err.message)
-    throw err
+    return null
   }
 }
 
@@ -76,6 +76,6 @@ export const RefreshToken = async () => {
     return token
   } catch (err) {
     console.error('Error refreshing token:', err.message)
-    throw err
+    return null
   }
 }

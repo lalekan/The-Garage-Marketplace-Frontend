@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../api/AuthContext'
+import axios from '../api/axios'
 
 const Login = () => {
   const [username, setUsername] = useState('')
@@ -12,6 +13,10 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    const form = new FormData()
+    form.append('username', username)
+    form.append('password', password)
 
     try {
       const response = await fetch('https://the-garage-marketplace-fbea5251146d.herokuapp.com/api/auth/login', {

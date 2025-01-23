@@ -49,6 +49,7 @@
   display: flex;
   gap: 20px;
   align-items: center;
+  flex-shrink: 1;
 }
 
 .navbar-links a,
@@ -87,9 +88,9 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 460px) {
   .navbar-title {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .navbar-welcome {
