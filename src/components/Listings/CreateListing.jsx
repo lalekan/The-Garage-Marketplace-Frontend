@@ -26,26 +26,28 @@ const CreateListing = () => {
     e.preventDefault()
     setError('')
     setIsLoading(true)
-
+  
     const { title, description, price, images } = formData
-
+  
     if (!title || !description || !price) {
       setError('All fields except images are required.')
       setIsLoading(false)
       return
     }
-
+  
     const form = new FormData()
     form.append('title', title)
     form.append('description', description)
     form.append('price', price)
     Array.from(images).forEach((image) => form.append('images', image))
-
+  
+    console.log([...form.entries()])
+  
     try {
       await axios.post('/listings', form, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
-      navigate('/') 
+      navigate('/')
     } catch (err) {
       console.error('Error creating listing:', err.message)
       setError('Failed to create listing. Please try again.')
@@ -53,6 +55,7 @@ const CreateListing = () => {
       setIsLoading(false)
     }
   }
+  
 
   return (
     <div className="create-listing-container">

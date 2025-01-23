@@ -19,6 +19,12 @@ body {
   margin-bottom: 20px;
 }
 
+.content-wrapper {
+  padding-top: 80px;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
 .create-listing-button {
   background-color: #28a745;
   color: #fff;

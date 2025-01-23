@@ -36,50 +36,53 @@ const App = () => {
         user={user}
         onLogout={handleLogout}
       />
+      <div className='content-wrapper'>
+        <Routes>
+          <Route path="/" element={<Listings />} />
 
-      <Routes>
-        <Route path="/" element={<Listings />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+          <Route
+            path="/create-listing"
+            element={
+              <ProtectedRoute isAuthenticated={authenticated}>
+                <CreateListing />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/listings/:id/edit"
+            element={
+              <ProtectedRoute isAuthenticated={authenticated}>
+                <EditListing />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/create-listing"
-          element={
-            <ProtectedRoute isAuthenticated={authenticated}>
-              <CreateListing />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/listings/:id/edit"
-          element={
-            <ProtectedRoute isAuthenticated={authenticated}>
-              <EditListing />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/messages"
+            element={
+              <ProtectedRoute isAuthenticated={authenticated}>
+                <Inbox />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/send-message"
+            element={
+              <ProtectedRoute isAuthenticated={authenticated}>
+                <SendMessage />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/messages"
-          element={
-            <ProtectedRoute isAuthenticated={authenticated}>
-              <Inbox />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/send-message"
-          element={
-            <ProtectedRoute isAuthenticated={authenticated}>
-              <SendMessage />
-            </ProtectedRoute>
-          }
-        />
+          {/* Invalid URLs */}
+          <Route path="*" element={<div>Page Not Found</div>} />
+        </Routes>
 
-        {/* Invalid URLs */}
-        <Route path="*" element={<div>Page Not Found</div>} />
-      </Routes>
+      </div>
+      
     </>
   )
 }
