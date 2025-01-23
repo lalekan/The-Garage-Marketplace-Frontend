@@ -75,7 +75,7 @@ const Listings = () => {
                 {listing.images.map((image, index) => (
                   <img
                     key={index}
-                    src={`https://the-garage-marketplace-fbea5251146d.herokuapp.com/${image}`}
+                    src={`${axios.defaults.baseURL}/${image}`}
                     alt={listing.title}
                     className="carousel-image"
                   />

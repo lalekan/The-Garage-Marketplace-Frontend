@@ -10,6 +10,9 @@ const Login = () => {
 
   const { setUser, setAuthenticated } = useContext(AuthContext)
   const navigate = useNavigate()
+  const handleReload = () => {
+    window.location.reload()
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -40,6 +43,7 @@ const Login = () => {
       setAuthenticated(true)
 
       navigate('/')
+      handleReload()
     } catch (err) {
       setError(err.message)
     }

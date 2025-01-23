@@ -10,6 +10,8 @@
 
 [The Garage Marketplace](https://leafy-muffin-35a7bf.netlify.app/login)
 
+[Deployed back end](https://the-garage-marketplace-fbea5251146d.herokuapp.com/api)
+
 [Front End Repository](https://github.com/lalekan/The-Garage-Marketplace-Frontend.git)
 
 [Back End Repository](https://github.com/lalekan/The-Garage-MarketPlace-Backend.git)
