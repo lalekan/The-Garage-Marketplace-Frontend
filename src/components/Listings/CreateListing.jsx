@@ -28,8 +28,6 @@ const CreateListing = () => {
     setIsLoading(true)
   
     const { title, description, price, imageUrls } = formData
-
-    console.log('Payload being sent:', { title, description, price, imageUrls })
   
     if (!title || !description || !price) {
       setError('All fields except images are required.')

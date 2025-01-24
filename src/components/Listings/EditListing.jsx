@@ -66,7 +66,6 @@ const EditListing = () => {
           },
         }
       )
-      console.log('Listing updated:', response.data)
       navigate('/')
     } catch (err) {
       console.error('Error updating listing:', err.response?.data || err.message)
