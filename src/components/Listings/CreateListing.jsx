@@ -7,8 +7,9 @@ const CreateListing = () => {
     title: '',
     description: '',
     price: '',
-    images: [],
+    imageUrls: [],
   })
+  
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
@@ -16,36 +17,42 @@ const CreateListing = () => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
-  const handleImageChange = (e) => {
-    setFormData((prev) => ({ ...prev, images: e.target.files }))
+  const handleImageUrlsChange = (e) => {
+    const urls = e.target.value.split(',').map((url) => url.trim())
+    setFormData((prev) => ({ ...prev, imageUrls: urls }))
   }
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
     setIsLoading(true)
-    const { title, description, price, images } = formData
+  
+    const { title, description, price, imageUrls } = formData
+  
     if (!title || !description || !price) {
       setError('All fields except images are required.')
       setIsLoading(false)
       return
     }
-    const form = new FormData()
-    form.append('title', title)
-    form.append('description', description)
-    form.append('price', price)
-    Array.from(images).forEach((image) => form.append('images', image))
+
+    console.log(imageUrls, "IMAGEURLS BEING SENT")
+  
     try {
-      await axios.post('/listings', form, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
-      navigate('/') 
+      await axios.post('/listings', { title, description, price, imageUrls })
+      navigate('/')
     } catch (err) {
-      console.error('Error creating listing:', err.message)
-      setError('Failed to create listing. Please try again.')
+      if (err.response) {
+        setError(err.response.data.message || 'Failed to create listing.')
+      } else if (err.request) {
+        setError('Network error. Please try again.')
+      } else {
+        setError('An unexpected error occurred.')
+      }
     } finally {
       setIsLoading(false)
     }
   }
+  
   return (
     <div className="create-listing-container">
       <h2>Create a New Listing</h2>
@@ -87,15 +94,24 @@ const CreateListing = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="images">Upload Images</label>
+          <label htmlFor="imageUrls">Image URLs (comma-separated)</label>
           <input
-            type="file"
-            id="images"
-            name="images"
-            multiple
-            onChange={handleImageChange}
+            type="text"
+            id="imageUrls"
+            name="imageUrls"
+            value={formData.imageUrls.join(', ')}
+            onChange={handleImageUrlsChange}
+
+            // onChange={(e) =>
+            //   setFormData((prev) => ({
+            //     ...prev,
+            //     imageUrls: e.target.value.split(',').map((url) => url.trim()),
+            //   }))
+            // }
+            placeholder="Enter image URLs, separated by commas"
           />
         </div>
+
         <button type="submit" disabled={isLoading}>
           {isLoading ? 'Creating...' : 'Create Listing'}
         </button>

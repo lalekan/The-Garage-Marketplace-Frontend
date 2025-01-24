@@ -72,14 +72,23 @@ const Listings = () => {
               <p className="price">${listing.price.toFixed(2)}</p>
 
               <div className="listing-images">
-                {listing.images.map((image, index) => (
+                {listing.images.length > 0 ? (
+                  listing.images.map((image, index) => (
+                    // console.log(image, "IMAGE!!!!")
+                    <img
+                      key={index}
+                      src={image}
+                      alt={listing.title}
+                      className="carousel-image"
+                    />
+                  ))
+                ) : (
                   <img
-                    key={index}
-                    src={`${axios.defaults.baseURL}/${image}`}
-                    alt={listing.title}
+                    src="https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg"
+                    alt="Placeholder"
                     className="carousel-image"
                   />
-                ))}
+                )}
               </div>
 
               {listing.userId && (
