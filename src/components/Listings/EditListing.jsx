@@ -11,8 +11,8 @@ const EditListing = () => {
     title: '',
     description: '',
     price: '',
+    imageUrls: [], // Handle image URLs
   })
-  const [images, setImages] = useState([])
   const [existingImages, setExistingImages] = useState([])
   const [error, setError] = useState('')
 
@@ -21,7 +21,7 @@ const EditListing = () => {
       try {
         const response = await axios.get(`/listings/${id}`)
         const { title, description, price, images } = response.data
-        setFormData({ title, description, price })
+        setFormData({ title, description, price, imageUrls: images })
         setExistingImages(images)
       } catch (err) {
         console.error('Error fetching listing:', err.message)
@@ -36,43 +36,49 @@ const EditListing = () => {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleFileChange = (e) => {
-    setImages(e.target.files)
+  const handleImageUrlsChange = (e) => {
+    const urls = e.target.value.split(',').map((url) => url.trim())
+    setFormData((prev) => ({ ...prev, imageUrls: urls }))
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-  
-    const formDataToSend = new FormData()
-    formDataToSend.append('title', formData.title)
-    formDataToSend.append('description', formData.description)
-    formDataToSend.append('price', formData.price)
-    for (const file of images) {
-      formDataToSend.append('images', file)
+    const { title, description, price, imageUrls } = formData
+
+    if (!title || !description || !price) {
+      setError('All fields except images are required.')
+      return
     }
-  
-    const token = localStorage.getItem('authToken')   
+
+    const token = localStorage.getItem('authToken')
+    if (!token) {
+      setError('Unauthorized. Please log in again.')
+      return
+    }
+
     try {
-      const response = await axios.put(`/listings/${id}`, formDataToSend, {
-        headers: {
-          Authorization: `Bearer ${token}`, 
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+      const response = await axios.put(
+        `/listings/${id}`,
+        { title, description, price, imageUrls }, // Send data directly as JSON
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token
+          },
+        }
+      )
+      console.log('Listing updated:', response.data)
       navigate('/')
     } catch (err) {
       console.error('Error updating listing:', err.response?.data || err.message)
       setError('Unable to update listing. Please try again.')
     }
   }
-  
-  
 
   return (
     <div className="edit-listing-page">
       <h1>Edit Listing</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit}>
         <label>
           Title:
           <input
@@ -108,15 +114,22 @@ const EditListing = () => {
             {existingImages.map((image, index) => (
               <img
                 key={index}
-                src={`https://the-garage-marketplace-fbea5251146d.herokuapp.com/${image}`}
+                src={image.startsWith('http') ? image : `https://the-garage-marketplace-fbea5251146d.herokuapp.com/${image}`}
                 alt="Listing"
+                className="existing-image"
               />
             ))}
           </div>
         </label>
         <label>
-          Upload New Images:
-          <input type="file" name="images" multiple onChange={handleFileChange} />
+          Update Image URLs (comma-separated):
+          <input
+            type="text"
+            name="imageUrls"
+            value={formData.imageUrls.join(', ')}
+            onChange={handleImageUrlsChange}
+            placeholder="Enter new image URLs, separated by commas"
+          />
         </label>
         <button type="submit">Update Listing</button>
       </form>

@@ -18,6 +18,7 @@ const Listings = () => {
     const fetchListings = async () => {
       try {
         const response = await axios.get('/listings')
+        console.log('Fetched Listings:', response.data)
         setListings(response.data)
       } catch (err) {
         console.error('Error fetching listings:', err.message)
@@ -72,9 +73,8 @@ const Listings = () => {
               <p className="price">${listing.price.toFixed(2)}</p>
 
               <div className="listing-images">
-                {listing.images.length > 0 ? (
+                {listing.images && listing.images.length > 0 ? (
                   listing.images.map((image, index) => (
-                    // console.log(image, "IMAGE!!!!")
                     <img
                       key={index}
                       src={image}
